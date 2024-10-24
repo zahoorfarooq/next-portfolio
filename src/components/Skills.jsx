@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 
 const skillsData = [
   {
-    name: "HTML",
+    name: "Docker",
     x: "-13vw",
     y: "10vh",
   },
   {
-    name: "CSS",
+    name: "AWS",
     x: "13vw",
     y: "10vh",
   },
@@ -30,12 +30,12 @@ const skillsData = [
     y: "-30vh",
   },
   {
-    name: "Flask.js",
+    name: "Jenkins",
     x: "15vw",
     y: "-30vh",
   },
   {
-    name: "jQuery",
+    name: "jira",
     x: "24vw",
     y: "-15vh",
   },
@@ -55,7 +55,7 @@ const skillsData = [
     y: "0vh",
   },
   {
-    name: "Tailwind CSS",
+    name: "Kubernetes",
     x: "28vw",
     y: "0vh",
   },
