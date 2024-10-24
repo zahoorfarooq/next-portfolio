@@ -61,11 +61,22 @@ const Experience = () => {
         />
 
         <ul className="w-full flex flex-col items-start justify-between ml-4 ">
+
           <Details
-            position="Full Stack Developer Intern"
+            position="DevOps Engineer 1"
+            company="BQE SOFTWARE"
+            companyLink="https://www.bqe.com/"
+            time="Oct 2024 - current"
+            address="Srinagar, India"
+            work={[
+              "• Deploying stuff",
+            ]}
+          />
+          <Details
+            position="Full Stack Developer"
             company="TECHPLEMENT"
             companyLink="https://techplement.com/"
-            time="Apr 2024 - current"
+            time="Apr 2024 - Aug 2024"
             address="Remote, India"
             work={[
               "During this internship I",
