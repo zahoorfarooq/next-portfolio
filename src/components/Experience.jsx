@@ -67,7 +67,7 @@ const Experience = () => {
             company="BQE SOFTWARE"
             companyLink="https://www.bqe.com/"
             time="Oct 2024 - current"
-            address="Srinagar, India"
+            address="Srinagar, Kashmir"
             work={[
               "• Deploying stuff",
             ]}
@@ -76,10 +76,10 @@ const Experience = () => {
             position="Full Stack Developer"
             company="TECHPLEMENT"
             companyLink="https://techplement.com/"
-            time="Apr 2024 - Sep 2024"
+            time="May 2024 - Oct 2024"
             address="Remote, India"
             work={[
-              "• Provideding client solution and worked on NextJS and ReactJS frameworks",
+              "• Providing client solution and worked on NextJS and ReactJS frameworks",
               "• Key role in developing B2C eCommerce platform on Salesforce Commerce Cloud, boosting online sales and user experience.",
               "• Resolved bugs, integrated new features for enhanced functionality and user experience.",
               "• Ensured ADA compliance for website.",
@@ -89,7 +89,7 @@ const Experience = () => {
             position="Gen AI freelancer"
             company="Scale AI."
             companyLink="https://scale.com/"
-            time="Sep 2023 - Jul. 2024"
+            time="Sep 2023 - Jul 2024"
             address="Remote, India"
             work={[
               "During this Period, I",
