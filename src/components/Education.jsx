@@ -50,19 +50,16 @@ const Education = () => {
             type="Bachelor Of Engineering In Computer Science"
             time="Dec 2020 - May 2024"
             place="Jawaharlal Nehru Technological University Kakinada"
-            grade="Grade: 8.0 CGPA"
           />
           <Details
             type="Class XII"
             time="March 2018 - March 2019"
             place="Govt Higher Secondary School, Surasyar"
-            grade="Percentage: 80.05%"
           />
           <Details
             type="Class X"
             time="Mar 2016 - Mar 2017"
             place="Govt Higher Secondary School, Surasyar"
-            grade="Grade: 90.0 %"
           />
         </ul>
       </div>
