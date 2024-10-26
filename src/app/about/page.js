@@ -40,8 +40,8 @@ export default function About() {
                     <CardContent className="space-y-2">
                       <ul className="list-disc">
                         <li>
-                          I&apos;m Zahoor Farooq, a dedicated full stack
-                          developer with a year of hands-on experience.
+                          I&apos;m Zahoor Farooq, a dedicated Full stack
+                          Engineer with a year of hands-on experience.
                         </li>
                         <br />
                         <li>
