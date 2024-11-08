@@ -49,7 +49,7 @@ const Education = () => {
           <Details
             type="Bachelor Of Engineering In Computer Science"
             time="Dec 2020 - May 2024"
-            place="Jawaharlal Nehru Technological University Kakinada"
+            place="Jawaharlal Nehru Technological University Hyderabad"
           />
           <Details
             type="Class XII"
