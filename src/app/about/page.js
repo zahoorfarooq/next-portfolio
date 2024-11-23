@@ -40,20 +40,16 @@ export default function About() {
                     <CardContent className="space-y-2">
                       <ul className="list-disc">
                         <li>
-                          I&apos;m Zahoor Farooq, a dedicated Full stack
+                          I&apos;m Zahoor Farooq, a dedicated Full Stack
                           Engineer with a year of hands-on experience.
                         </li>
                         <br />
                         <li>
-                          My dedication lies in translating concepts into
-                          digital realities, using code as a canvas for both
-                          functionality and visually captivating masterpieces.
+                          My passion lies in transforming ideas into reality, combining automation expertise with web development to deliver systems that are functional, visually appealing, and robust.
                         </li>
                         <br />
                         <li>
-                          Throughout my journey in web development, innovation
-                          has been the driving force, shaping a path marked by
-                          continuous creativity.
+                         Throughout my journey in development and deployment, innovation and adaptability have been my driving forces, enabling impactful solutions across both DevOps and web domains.
                         </li>
                       </ul>
                     </CardContent>
@@ -67,14 +63,10 @@ export default function About() {
                     <CardContent className="space-y-2">
                       <ul className="list-disc">
                         <li>
-                          From captivating front-end designs to robust back-end
-                          solutions, I create holistic web experiences.
-                        </li>
+                        From crafting efficient CI/CD pipelines to developing dynamic web applications, I create end-to-end digital solutions.                        </li>
                         <br />
                         <li>
-                          My toolbox includes the latest frameworks, languages,
-                          and design principles, ensuring solutions meet current
-                          standards and future challenges.
+                          My toolbox includes modern DevOps practices, web frameworks, and cloud platforms, ensuring seamless integration, scalability, and reliability.
                         </li>
                         <br />
                         <li>
