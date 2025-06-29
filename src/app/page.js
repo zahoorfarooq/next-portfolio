@@ -55,7 +55,7 @@ export default function Home() {
             </div>
           </div>
 
-          <HireMe />
+          <Okays />
 
           <div className="absolute right-6 bottom-8 w-24 md:hidden xl:w-20">
             <Image
