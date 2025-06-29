@@ -8,7 +8,7 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
     <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark dark:border-light bg-light dark:bg-dark p-6 relative xs:p-4">
       <div className="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2rem] bg-dark dark:bg-light rounded-br-3xl md:-right-2 md:w-[101%] xs:h-[102%] xs:rounded-[1.5rem]" />
       <Link
-        href= 'https://github.com/Zaydfarooq/socialmeet'
+        href= 'https://github.com/zahoorfarooq/socialmeet'
         target="_blank"
         className="w-full cursor-pointer overflow-hidden rounded-lg"
       >
@@ -29,7 +29,7 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
           {type}
         </span>
         <Link
-          href= 'https://github.com/Zaydfarooq/My-projects-/tree/main/student%20registration%20details'
+          href= 'https://github.com/zahoorfarooq/My-projects-/tree/main/student%20registration%20details'
           target="_blank"
           className="hover:underline underline-offset-2"
         >

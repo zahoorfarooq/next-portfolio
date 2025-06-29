@@ -111,7 +111,7 @@ const NavBar = () => {
             <TwitterIcon className={"fill-dark dark:fill-white"} />
           </motion.a>
           <motion.a
-            href="https://www.github.com/zaydfarooq/"
+            href="https://www.github.com/zahoorfarooq/"
             rel="noreferrer"
             target="_blank"
             className="mx-3 w-6"
@@ -202,7 +202,7 @@ const NavBar = () => {
               <TwitterIcon className={"fill-light dark:fill-dark"} />
             </motion.a>
             <motion.a
-              href="https://www.github.com/zaydfarooq/"
+              href="https://www.github.com/zahoorfarooq/"
               rel="noreferrer"
               target="_blank"
               className="mx-3 w-6 sm:mx-2"
