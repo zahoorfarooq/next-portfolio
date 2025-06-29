@@ -69,6 +69,34 @@ export default function Blogs() {
               </div>
             ))}
           </ul>
+          <div className="flex flex-col items-center w-full my-16 mt-32">
+            <a
+              href="https://zahoorfarooq.hashnode.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-2xl font-semibold text-blue-600 hover:underline"
+            >
+              {/* Hashnode SVG Icon */}
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="16" fill="#2962FF" />
+                <path
+                  d="M22.5 9.5L16 16L9.5 22.5"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9.5 9.5L16 16L22.5 22.5"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Visit my Hashnode Blog
+            </a>
+          </div>
         </main>
       </div>
     </>
