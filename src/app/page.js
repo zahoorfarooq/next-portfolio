@@ -4,7 +4,6 @@ import AnimatedText from "@/components/AnimatedText";
 import Link from "next/link";
 import { LinkArrow } from "@/components/Icons";
 import profileImage from "public/profile/developer-pic-1-removed-bg-removebg.png";
-import HireMe from "@/components/HireMe";
 import lightBulb from "../../public/svgs/light_bulb.svg";
 import TransitionEffect from "@/components/TransitionEffect";
 import conf from "@/conf/conf";
