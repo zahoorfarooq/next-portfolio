@@ -40,12 +40,11 @@ export default function About() {
                     <CardContent className="space-y-2">
                       <ul className="list-disc">
                         <li>
-                          I&apos;m Zahoor Farooq, a dedicated Full Stack
-                          Engineer with a year of hands-on experience.
+                          I&apos;m Zahoor Farooq, a dedicated Devops Engineer with a year of hands-on experience.
                         </li>
                         <br />
                         <li>
-                          My passion lies in transforming ideas into reality, combining automation expertise with web development to deliver systems that are functional, visually appealing, and robust.
+                          My passion lies in transforming ideas into reality, combining automation expertise to deliver systems that are functional, visually appealing, and robust.
                         </li>
                         <br />
                         <li>

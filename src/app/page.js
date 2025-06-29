@@ -30,7 +30,7 @@ export default function Home() {
                 className="!text-6xl !text-left xl:!text-5xl lg:!text-center lg:!text-6xl md:!text-5xl sm:!text-3xl"
               />
               <p className="py-4 text-base font-medium md:text-sm xs:text-xs">
-                A passionate Full Stack Engineer with strong technical
+                A passionate DevOps Engineer with strong technical
                 skills, an eye for design and a commitment to delivering
                 innovative, user‑friendly software solutions.
               </p>
