@@ -50,25 +50,6 @@ export default function Blogs() {
               </div>
             ))}
           </ul>
-          <h2 className="font-bold text-4xl w-full text-center my-16 mt-32">
-            Blogs to be added :)
-          </h2>
-          <ul className="w-full">
-            {fetchedBlogs.slice(2).map((blog) => (
-              <div key={blog.id}>
-                {loading ? (
-                  <Blog
-                    thumbNailImg={blog.node.coverImage.url}
-                    title={blog.node.title}
-                    link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
-                    date={blog.node.publishedAt}
-                  />
-                ) : (
-                  <BlogSkeleton />
-                )}
-              </div>
-            ))}
-          </ul>
           <div className="flex flex-col items-center w-full my-16 mt-32">
             <a
               href="https://zahoorfarooq.hashnode.dev/"
