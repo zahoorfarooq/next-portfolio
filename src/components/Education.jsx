@@ -54,12 +54,12 @@ const Education = () => {
           <Details
             type="Class XII"
             time="March 2018 - March 2019"
-            place="Govt Higher Secondary School, Surasyar"
+            place="Kashmir"
           />
           <Details
             type="Class X"
             time="Mar 2016 - Mar 2017"
-            place="Govt Higher Secondary School, Surasyar"
+            place="Kashmir"
           />
         </ul>
       </div>
