@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import HireMe from '../components/HireMe';
 import AnimatedText from "@/components/AnimatedText";
 import Link from "next/link";
 import { LinkArrow } from "@/components/Icons";
