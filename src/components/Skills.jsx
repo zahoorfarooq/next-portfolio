@@ -97,7 +97,7 @@ const Skills = () => {
           className="cursor-pointer flex rounded-full font-semibold bg-dark text-light py-3 px-6 md:py-1.5 md:px-3 shadow-dark dark:bg-light dark:text-dark xs:text-xs xs:p-2"
           whileHover={{ scale: 1.05 }}
         >
-          Web
+          DevOps
         </motion.div>
         {skillsData.map((skill, idx) => {
           return (
