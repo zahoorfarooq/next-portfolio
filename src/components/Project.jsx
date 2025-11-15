@@ -12,18 +12,16 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
         target="_blank"
         className="w-full cursor-pointer overflow-hidden rounded-lg"
       >
-        <div className="relative w-full aspect-video">
-          <Image
-            loader={() => thumbNailImg}
-            src={thumbNailImg}
-            alt={title}
-            className="object-cover rounded-lg"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-            unoptimized
-          />
-        </div>
+        <Image
+          loader={() => thumbNailImg}
+          src={thumbNailImg}
+          alt={title}
+          className="w-full h-auto object-contain rounded-lg"
+          width={500}
+          height={300}
+          priority={true}
+          unoptimized
+        />
       </Link>
 
       <div className="w-full flex flex-col items-start justify-between mt-4">
