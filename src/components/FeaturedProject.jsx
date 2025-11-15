@@ -24,18 +24,20 @@ const FeaturedProject = ({
         target="_blank"
         className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full"
       >
-        <FramerImage
-          loader={() => thumbNailImg}
-          src={thumbNailImg}
-          alt={title}
-          className="w-full h-auto rounded-3xl"
-          width={100}
-          height={100}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          priority={true}
-          unoptimized
-        />
+        <div className="relative w-full aspect-video">
+          <FramerImage
+            loader={() => thumbNailImg}
+            src={thumbNailImg}
+            alt={title}
+            className="object-cover rounded-lg"
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+            priority={true}
+            unoptimized
+          />
+        </div>
       </Link>
 
       <div className="w-1/2 flex flex-col items-start justify-between pl-6 lg:w-full lg:pl-0 lg:pt-6">

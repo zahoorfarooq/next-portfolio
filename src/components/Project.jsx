@@ -8,20 +8,22 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
     <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark dark:border-light bg-light dark:bg-dark p-6 relative xs:p-4">
       <div className="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2rem] bg-dark dark:bg-light rounded-br-3xl md:-right-2 md:w-[101%] xs:h-[102%] xs:rounded-[1.5rem]" />
       <Link
-        href= 'https://github.com/zahoorfarooq/socialmeet'
+        href='https://github.com/zahoorfarooq/socialmeet'
         target="_blank"
         className="w-full cursor-pointer overflow-hidden rounded-lg"
       >
-        <Image
-          loader={() => thumbNailImg}
-          src={thumbNailImg}
-          alt={title}
-          className="w-full h-auto rounded-3xl"
-          width={100}
-          height={100}
-          priority={true}
-          unoptimized
-        />
+        <div className="relative w-full aspect-video">
+          <Image
+            loader={() => thumbNailImg}
+            src={thumbNailImg}
+            alt={title}
+            className="object-cover rounded-lg"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={true}
+            unoptimized
+          />
+        </div>
       </Link>
 
       <div className="w-full flex flex-col items-start justify-between mt-4">
@@ -29,7 +31,7 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
           {type}
         </span>
         <Link
-          href= 'https://github.com/zahoorfarooq/My-projects-/tree/main/student%20registration%20details'
+          href='https://github.com/zahoorfarooq/My-projects-/tree/main/student%20registration%20details'
           target="_blank"
           className="hover:underline underline-offset-2"
         >
