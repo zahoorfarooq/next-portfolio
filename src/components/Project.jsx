@@ -10,17 +10,12 @@ const Project = ({ type, title, thumbNailImg, link, gitHubLink }) => {
       <Link
         href='https://github.com/zahoorfarooq/socialmeet'
         target="_blank"
-        className="w-full cursor-pointer overflow-hidden rounded-lg"
+        className="w-full cursor-pointer overflow-hidden rounded-lg max-h-[400px] flex items-center justify-center bg-gray-100 dark:bg-gray-800"
       >
-        <Image
-          loader={() => thumbNailImg}
+        <img
           src={thumbNailImg}
           alt={title}
-          className="w-full h-auto object-contain rounded-lg"
-          width={500}
-          height={300}
-          priority={true}
-          unoptimized
+          className="w-full h-full object-contain rounded-lg"
         />
       </Link>
 

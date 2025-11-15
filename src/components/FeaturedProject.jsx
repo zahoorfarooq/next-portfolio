@@ -2,11 +2,7 @@
 
 import React from "react";
 import { GithubIcon } from "@/components/Icons";
-import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const FramerImage = motion(Image);
 
 const FeaturedProject = ({
   type,
@@ -22,19 +18,12 @@ const FeaturedProject = ({
       <Link
         href={link}
         target="_blank"
-        className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full"
+        className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full max-h-[500px] flex items-center justify-center bg-gray-100 dark:bg-gray-800"
       >
-        <FramerImage
-          loader={() => thumbNailImg}
+        <img
           src={thumbNailImg}
           alt={title}
-          className="w-full h-auto object-contain rounded-lg"
-          width={600}
-          height={400}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          priority={true}
-          unoptimized
+          className="w-full h-full object-contain rounded-lg transition-transform duration-200 hover:scale-105"
         />
       </Link>
 
