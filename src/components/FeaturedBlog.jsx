@@ -1,43 +1,62 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const FramerImage = motion(Image);
 
 const FeaturedBlog = ({ thumbNailImg, title, time, summary, link }) => {
   return (
-    <li className="col-span-1 w-full p-4 bg-light dark:bg-dark border border-solid border-dark dark:border-light rounded-2xl relative">
+    <li className="col-span-1 relative group rounded-2xl overflow-hidden border border-solid border-dark/20 dark:border-light/20 bg-light dark:bg-dark shadow-lg hover:shadow-2xl transition-shadow duration-300">
       <div className="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-dark dark:bg-light rounded-br-3xl" />
-      <Link
-        href={link}
-        target="_blank"
-        className="w-full cursor-pointer overflow-hidden rounded-lg inline-block"
-      >
-        <FramerImage
-          loader={() => thumbNailImg}
-          src={thumbNailImg}
-          alt={title}
-          className="w-full h-auto rounded-3xl"
-          width={100}
-          height={100}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          priority={true}
-        />
+
+      {/* Image with overlay */}
+      <Link href={link} target="_blank" rel="noopener noreferrer" className="block overflow-hidden">
+        <div className="relative w-full aspect-[16/9] overflow-hidden bg-dark/5 dark:bg-light/5">
+          <img
+            src={thumbNailImg}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/10 to-transparent" />
+          <span className="absolute top-4 right-4 bg-primary dark:bg-primaryDark text-light dark:text-dark text-xs font-bold px-3 py-1 rounded-full shadow">
+            {time} min read
+          </span>
+        </div>
       </Link>
 
-      <Link href={link} target="_blank">
-        <h2 className="capitalize text-2xl font-bold my-2 mt-4 hover:underline xs:text-lg">
-          {title}
-        </h2>
-      </Link>
-      <p className="text-sm mb-2">{summary}</p>
-      <span className="text-primary dark:text-primaryDark font-semibold">
-        {`${time} minutes`}
-      </span>
+      {/* Content */}
+      <div className="p-6">
+        <Link href={link} target="_blank" rel="noopener noreferrer">
+          <h2 className="text-xl font-bold text-dark dark:text-light mb-3 line-clamp-2 hover:text-primary dark:hover:text-primaryDark transition-colors duration-200 leading-snug">
+            {title}
+          </h2>
+        </Link>
+        <p className="text-sm text-dark/65 dark:text-light/65 line-clamp-3 mb-5 leading-relaxed">
+          {summary}
+        </p>
+        <Link
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-primary dark:text-primaryDark group/cta"
+        >
+          Read Article
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className="transition-transform duration-200 group-hover/cta:translate-x-1"
+          >
+            <path
+              d="M3 8H13M13 8L9 4M13 8L9 12"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </Link>
+      </div>
     </li>
   );
 };

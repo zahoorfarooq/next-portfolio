@@ -6,35 +6,36 @@ export const gql = async (query) => {
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({
-      query,
-    }),
+    body: JSON.stringify({ query }),
   });
-
   return data.json();
 };
 
+const host =
+  conf.hashnodeHost && conf.hashnodeHost !== "undefined"
+    ? conf.hashnodeHost
+    : "zahoorfarooq.hashnode.dev";
+
 export const GET_USER_ARTICLES = `
   query Publication {
-      publication(host: "${conf.hashnodeHost}") {
-        posts(first:20){
-          edges {
-            node {
-              id,
-              slug,
-              title,
-              url,
-              cuid,
-              coverImage {
-                url
-              },
-              brief,
-              readTimeInMinutes,
-              publishedAt
-              
+    publication(host: "${host}") {
+      posts(first: 20) {
+        edges {
+          node {
+            id
+            slug
+            title
+            url
+            cuid
+            coverImage {
+              url
             }
+            brief
+            readTimeInMinutes
+            publishedAt
           }
         }
       }
     }
-  `;
+  }
+`;

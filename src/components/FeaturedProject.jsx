@@ -4,53 +4,60 @@ import React from "react";
 import { GithubIcon } from "@/components/Icons";
 import Link from "next/link";
 
-const FeaturedProject = ({
-  type,
-  title,
-  summary,
-  thumbNailImg,
-  link,
-  gitHubLink,
-}) => {
+const FeaturedProject = ({ type, title, summary, thumbNailImg, link, gitHubLink }) => {
   return (
-    <article className="w-full flex items-center justify-between rounded-3xl rounded-br-2xl border border-solid border-dark dark:border-light bg-light dark:bg-dark shadow-2xl p-12 relative lg:flex-col lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
-      <div className="absolute  top-0 -right-3 -z-10 h-[103%] w-[101%] rounded-[2.5rem] rounded-br-3xl bg-dark dark:bg-light  xs:-right-2 xs:h-[102%] xs:w-[100%] xs:rounded-[1.5rem]" />
+    <article className="group w-full flex items-center justify-between rounded-3xl border border-solid border-dark/20 dark:border-light/20 bg-light dark:bg-dark shadow-xl hover:shadow-2xl transition-shadow duration-300 p-12 relative lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4">
+      <div className="absolute top-0 -right-3 -z-10 h-[103%] w-[101%] rounded-[2.5rem] rounded-br-3xl bg-dark dark:bg-light xs:-right-2 xs:h-[102%] xs:w-[100%] xs:rounded-[1.5rem]" />
+
+      {/* Image */}
       <Link
-        href={link}
+        href={link || "#"}
         target="_blank"
-        className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full max-h-[500px] flex items-center justify-center bg-gray-100 dark:bg-gray-800"
+        rel="noopener noreferrer"
+        className="w-1/2 overflow-hidden rounded-2xl lg:w-full"
       >
-        <img
-          src={thumbNailImg}
-          alt={title}
-          className="w-full h-full object-contain rounded-lg transition-transform duration-200 hover:scale-105"
-        />
+        <div className="relative aspect-video w-full overflow-hidden bg-dark/5 dark:bg-light/5 rounded-2xl">
+          <img
+            src={thumbNailImg}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+        </div>
       </Link>
 
-      <div className="w-1/2 flex flex-col items-start justify-between pl-6 lg:w-full lg:pl-0 lg:pt-6">
-        <span className="text-primary dark:text-primaryDark font-medium text-xl xs:text-base">
+      {/* Content */}
+      <div className="w-1/2 flex flex-col items-start justify-between pl-8 lg:w-full lg:pl-0 lg:pt-6">
+        <span className="text-primary dark:text-primaryDark font-semibold text-xl xs:text-base mb-1">
           {type}
         </span>
         <Link
-          href={link}
+          href={link || "#"}
           target="_blank"
-          className="hover:underline underline-offset-2"
+          rel="noopener noreferrer"
+          className="hover:text-primary dark:hover:text-primaryDark transition-colors duration-200"
         >
-          <h2 className="my-2 w-full text-left text-4xl font-bold text-dark dark:text-light sm:text-sm">
+          <h2 className="my-2 w-full text-left text-4xl font-bold text-dark dark:text-light sm:text-2xl leading-tight">
             {title}
           </h2>
         </Link>
-        <p className="my-2 font-medium text-dark dark:text-light sm:text-sm">
+        <p className="my-3 font-medium text-dark/70 dark:text-light/70 leading-relaxed sm:text-sm">
           {summary}
         </p>
-        <div className="mt-2 flex items-center">
-          <Link href={gitHubLink} target="_blank" className="w-10">
+        <div className="mt-4 flex items-center gap-4">
+          <Link
+            href={gitHubLink || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 hover:scale-110 transition-transform duration-200"
+          >
             <GithubIcon className="fill-dark dark:fill-light" />
           </Link>
           <Link
-            href={link}
+            href={link || "#"}
             target="_blank"
-            className="ml-4 rounded-lg bg-dark dark:bg-light text-light dark:text-dark p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-dark dark:bg-light text-light dark:text-dark px-6 py-2.5 text-base font-semibold hover:bg-primary dark:hover:bg-primaryDark hover:text-light dark:hover:text-dark border-2 border-dark dark:border-light hover:border-primary dark:hover:border-primaryDark transition-all duration-200 sm:px-4 sm:text-sm"
           >
             Visit Project
           </Link>
