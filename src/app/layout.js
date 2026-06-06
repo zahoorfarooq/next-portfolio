@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import conf from "@/conf/conf";
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-mont" });
 
@@ -60,15 +59,7 @@ export default function RootLayout({ children }) {
         <SpeedInsights />
         <Footer />
       </body>
-      <Script
-        id="email-js-cdn"
-        type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-        strategy="lazyOnload"
-      ></Script>
-      <Script id="email-js-init" type="text/javascript" strategy="lazyOnload">
-        {`if (window.emailjs) { window.emailjs.init({ publicKey: "${conf.emailjsPublicKey}" }); }`}
-      </Script>
+
     </html>
   );
 }

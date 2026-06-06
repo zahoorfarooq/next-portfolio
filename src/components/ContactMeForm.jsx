@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,80 +16,62 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import emailjs from "@emailjs/browser";
-import conf from "@/conf/conf";
 
-// Defining contact me form schema
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  email: z.string().email({ message: "Invalid email address" }),
-  subject: z.string().min(2, {
-    message: "Please enter a subject.",
-  }),
-  message: z.string().min(2, {
-    message: "Kindly provide a message.",
-  }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Invalid email address." }),
+  subject: z.string().min(2, { message: "Please enter a subject." }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
 const ContactMeForm = () => {
   const { toast } = useToast();
-  const formRef = useRef();
+  const [sending, setSending] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
+    defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  const onFormSubmit = async () => {
-    emailjs
-      .sendForm(
-        conf.emailjsServiceID,
-        conf.emailjsTemplateID,
-        formRef.current,
-        {
-          publicKey: conf.emailjsPublicKey,
-        }
-      )
-      .then(
-        () => {
-          form.reset();
-          toast({
-            title: "Hurray!!!",
-            description: `Your message has been sent.`,
-          });
-        },
-        (error) => {
-          toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: `There was a problem with your request. Please try again`,
-          });
-          console.log(error.message);
-        }
-      );
+  const onFormSubmit = async (data) => {
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Server error");
+
+      form.reset();
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out — I'll get back to you soon.",
+      });
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Failed to send.",
+        description: "Something went wrong. Please try again or email me directly.",
+      });
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <Form {...form}>
-      <form ref={formRef} onSubmit={form.handleSubmit(onFormSubmit)}>
-        <div className="flex flex-row sm:flex-col justify-between items-center my-4">
+      <form onSubmit={form.handleSubmit(onFormSubmit)}>
+        <div className="flex flex-row sm:flex-col justify-between items-start my-4 gap-4">
           <FormField
-            type="text"
-            className="w-full"
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="w-1/2 sm:w-full mr-2 sm:mr-0 sm:my-2">
-                <FormLabel>Name : </FormLabel>
+              <FormItem className="w-1/2 sm:w-full">
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Name..." {...field} />
+                  <Input type="text" placeholder="Your name..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,38 +81,40 @@ const ContactMeForm = () => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="w-1/2 sm:w-full ml-2 sm:ml-0 sm:my-2">
-                <FormLabel>Email : </FormLabel>
+              <FormItem className="w-1/2 sm:w-full">
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Email..." {...field} />
+                  <Input type="email" placeholder="your@email.com..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
+
         <FormField
           control={form.control}
           name="subject"
           render={({ field }) => (
             <FormItem className="my-4">
-              <FormLabel>Subject : </FormLabel>
+              <FormLabel>Subject</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Subject..." {...field} />
+                <Input type="text" placeholder="What's this about..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem className="my-4">
-              <FormLabel>Message : </FormLabel>
+              <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell a little bit about yourself..."
+                  placeholder="Tell me a bit about yourself or your project..."
                   className="resize-none"
                   rows={10}
                   {...field}
@@ -140,11 +124,13 @@ const ContactMeForm = () => {
             </FormItem>
           )}
         />
+
         <Button
-          className="my-4 w-full bg-dark hover:bg-light text-light hover:text-dark border-2 border-solid border-transparent hover:border-dark dark:bg-light dark:text-dark hover:dark:bg-dark hover:dark:text-light hover:dark:border-light"
+          className="my-4 w-full bg-dark hover:bg-light text-light hover:text-dark border-2 border-solid border-transparent hover:border-dark dark:bg-light dark:text-dark hover:dark:bg-dark hover:dark:text-light hover:dark:border-light disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200"
           type="submit"
+          disabled={sending}
         >
-          Submit
+          {sending ? "Sending…" : "Send Message"}
         </Button>
       </form>
     </Form>
