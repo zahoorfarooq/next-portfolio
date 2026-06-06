@@ -110,9 +110,7 @@ export default function About() {
               <Image
                 src={profileImage}
                 alt="profile"
-                width={"100%"}
-                height={"100%"}
-                className="rounded-2xl"
+                className="rounded-2xl w-full h-auto"
                 priority
               />
             </div>
