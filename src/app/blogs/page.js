@@ -1,53 +1,53 @@
-"use client";
-
 import AnimatedText from "@/components/AnimatedText";
 import FeaturedBlog from "@/components/FeaturedBlog";
 import Blog from "@/components/Blog";
 import TransitionEffect from "@/components/TransitionEffect";
-import { useEffect, useState } from "react";
-import { GET_USER_ARTICLES, gql } from "@/hashode/hashnode";
-import FeaturedBlogSkeleton from "@/components/skeletons/FeaturedBlogSkeleton";
-import BlogSkeleton from "@/components/skeletons/BlogSkeleton";
 
-export default function Blogs() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [fetchedBlogs, setFetchedBlogs] = useState([]);
+async function getBlogs() {
+  try {
+    const res = await fetch("https://gql.hashnode.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+          query {
+            publication(host: "zahoorfarooq.hashnode.dev") {
+              posts(first: 20) {
+                edges {
+                  node {
+                    id
+                    slug
+                    title
+                    coverImage { url }
+                    brief
+                    readTimeInMinutes
+                    publishedAt
+                  }
+                }
+              }
+            }
+          }
+        `,
+      }),
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json?.data?.publication?.posts?.edges || [];
+  } catch {
+    return [];
+  }
+}
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await gql(GET_USER_ARTICLES);
-        
-        if (response.errors) {
-          throw new Error(response.errors[0]?.message || "Failed to fetch blogs");
-        }
-        
-        const blogs = response.data?.publication?.posts?.edges || [];
-        setFetchedBlogs(blogs);
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
-        setError("Failed to load blog posts. Please try again later.");
-        setFetchedBlogs([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+export const metadata = {
+  title: "Blogs | Zahoor Farooq",
+  description: "Technical articles on DevOps, cloud infrastructure, and full-stack development.",
+};
 
-    fetchBlogs();
-  }, []);
-
-  const renderSkeletons = (count = 2) => (
-    <>
-      {Array.from({ length: count }).map((_, idx) => (
-        <div key={`skeleton-${idx}`}>
-          {idx === 0 ? <FeaturedBlogSkeleton /> : <BlogSkeleton />}
-        </div>
-      ))}
-    </>
-  );
+export default async function Blogs() {
+  const blogs = await getBlogs();
+  const featuredBlogs = blogs.slice(0, 2);
+  const recentBlogs = blogs.slice(2);
 
   return (
     <>
@@ -59,75 +59,68 @@ export default function Blogs() {
             className="mb-16 !text-center !text-6xl xl:!text-5xl lg:!text-center lg:!text-6xl md:!text-5xl sm:!text-3xl"
           />
 
-          {error && (
-            <div className="w-full max-w-4xl bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-800 dark:text-red-100 px-4 py-3 rounded mb-8">
-              {error}
+          {blogs.length === 0 ? (
+            <div className="w-full text-center py-24 flex flex-col items-center gap-4">
+              <p className="text-xl text-dark/50 dark:text-light/50">No blog posts found.</p>
+              <a
+                href="https://zahoorfarooq.hashnode.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary dark:text-primaryDark underline underline-offset-4 font-medium"
+              >
+                Visit Hashnode directly →
+              </a>
             </div>
-          )}
-
-          {/* Featured Blogs */}
-          <ul className="w-full grid grid-cols-2 gap-16 lg:gap-8 md:grid-cols-1 md:gap-y-16">
-            {loading ? (
-              renderSkeletons(2)
-            ) : fetchedBlogs.length > 0 ? (
-              fetchedBlogs.slice(0, 2).map((blog) => (
-                <div key={blog.node.id}>
+          ) : (
+            <>
+              {/* Featured — first 2 posts */}
+              <ul className="w-full grid grid-cols-2 gap-16 lg:gap-8 md:grid-cols-1 md:gap-y-16">
+                {featuredBlogs.map((blog) => (
                   <FeaturedBlog
-                    thumbNailImg={blog.node.coverImage?.url || "https://via.placeholder.com/600x400"}
+                    key={blog.node.id}
+                    thumbNailImg={blog.node.coverImage?.url || ""}
                     title={blog.node.title}
                     time={blog.node.readTimeInMinutes || 5}
-                    summary={blog.node.brief || "Check out this article"}
-                    link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="col-span-2 text-center py-12">
-                <p className="text-lg text-dark/75 dark:text-light/75">No blog posts available yet.</p>
-              </div>
-            )}
-          </ul>
-
-          {/* Recent Blogs List */}
-          {!loading && fetchedBlogs.length > 2 && (
-            <div className="w-full mt-16">
-              <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
-              <ul className="w-full space-y-0">
-                {fetchedBlogs.slice(2).map((blog) => (
-                  <Blog
-                    key={blog.node.id}
-                    thumbNailImg={blog.node.coverImage?.url || "https://via.placeholder.com/400x300"}
-                    title={blog.node.title}
-                    date={blog.node.publishedAt}
+                    summary={blog.node.brief || ""}
                     link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
                   />
                 ))}
               </ul>
-            </div>
+
+              {/* Latest articles list */}
+              {recentBlogs.length > 0 && (
+                <div className="w-full mt-20">
+                  <h2 className="text-3xl font-bold mb-6 text-dark dark:text-light">
+                    Latest Articles
+                  </h2>
+                  <ul className="w-full">
+                    {recentBlogs.map((blog) => (
+                      <Blog
+                        key={blog.node.id}
+                        thumbNailImg={blog.node.coverImage?.url || ""}
+                        title={blog.node.title}
+                        date={blog.node.publishedAt}
+                        link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
           )}
 
-          {/* CTA Section */}
-          <div className="flex flex-col items-center w-full my-16 mt-32">
-            <p className="text-lg text-dark dark:text-light mb-6 text-center">
-              Want to read more technical content? Visit my Hashnode blog for in-depth articles on DevOps, development, and modern technologies.
-            </p>
+          {/* Footer CTA */}
+          <div className="mt-24 mb-8 text-center">
             <a
               href="https://zahoorfarooq.hashnode.dev/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-2xl font-semibold text-blue-600 dark:text-blue-400 hover:underline transition-colors"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-primary dark:text-primaryDark hover:underline underline-offset-4 transition-colors"
             >
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#2962FF" />
-                <path
-                  d="M22.5 9.5L16 16L9.5 22.5"
-                  stroke="#fff"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              View all articles on Hashnode
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              Visit my Hashnode Blog
             </a>
           </div>
         </main>
