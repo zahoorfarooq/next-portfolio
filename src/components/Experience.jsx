@@ -69,7 +69,7 @@ const Experience = () => {
             time="Oct 2024 - current"
             address="Srinagar, Kashmir"
             work={[
-              "• Deploying stuff",
+              "•CLoud/CICD/Iac etc",
             ]}
           />
           <Details
