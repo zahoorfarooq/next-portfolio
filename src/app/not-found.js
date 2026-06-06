@@ -20,10 +20,10 @@ export default function NotFound() {
         
         <div className="text-center mb-12">
           <p className="text-2xl font-semibold text-dark dark:text-light mb-4">
-            Oops! The page you're looking for doesn't exist.
+            Oops! The page you&apos;re looking for doesn&apos;t exist.
           </p>
           <p className="text-lg text-dark/75 dark:text-light/75 mb-8">
-            But don't worry, you can always go back or explore other sections of the portfolio.
+            But don&apos;t worry, you can always go back or explore other sections of the portfolio.
           </p>
         </div>
 
