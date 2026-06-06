@@ -3,45 +3,81 @@ import FeaturedBlog from "@/components/FeaturedBlog";
 import Blog from "@/components/Blog";
 import TransitionEffect from "@/components/TransitionEffect";
 
+function parseRSS(xml) {
+  const blogs = [];
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+
+  for (const match of items) {
+    const item = match[1];
+
+    const extract = (tag) => {
+      const cdata = item.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`));
+      if (cdata) return cdata[1].trim();
+      const plain = item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
+      return plain ? plain[1].trim() : "";
+    };
+
+    const title = extract("title");
+    const link = extract("link") || item.match(/<link>(.*?)<\/link>/)?.[1]?.trim() || "";
+    const pubDate = extract("pubDate");
+    const description = extract("description") || extract("content:encoded") || "";
+
+    // Cover image: try <media:content>, <enclosure>, then first <img> in description
+    const mediaSrc =
+      item.match(/<media:content[^>]+url="([^"]+)"/)?.[1] ||
+      item.match(/<enclosure[^>]+url="([^"]+)"/)?.[1] ||
+      description.match(/src="(https?:\/\/cdn\.hashnode\.com[^"]+)"/)?.[1] ||
+      description.match(/src="(https?:\/\/[^"]+\.(?:jpg|jpeg|png|webp|gif)[^"]*)"/i)?.[1] ||
+      "";
+
+    const plainText = description.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const brief = plainText.slice(0, 220).trimEnd() + (plainText.length > 220 ? "…" : "");
+    const readTimeInMinutes = Math.max(1, Math.round(plainText.split(/\s+/).length / 200));
+    const slug = link.split("/").filter(Boolean).pop() || "";
+
+    if (title && link) {
+      blogs.push({
+        node: {
+          id: slug,
+          slug,
+          title,
+          url: link,
+          coverImage: mediaSrc ? { url: mediaSrc } : null,
+          brief,
+          readTimeInMinutes,
+          publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+        },
+      });
+    }
+  }
+
+  return blogs;
+}
+
 async function getBlogs() {
   try {
-    const res = await fetch("https://gql.hashnode.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `
-          query {
-            publication(host: "zahoorfarooq.hashnode.dev") {
-              posts(first: 20) {
-                edges {
-                  node {
-                    id
-                    slug
-                    title
-                    coverImage { url }
-                    brief
-                    readTimeInMinutes
-                    publishedAt
-                  }
-                }
-              }
-            }
-          }
-        `,
-      }),
+    const res = await fetch("https://zahoorfarooq.hashnode.dev/rss.xml", {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        Accept: "application/rss+xml, application/xml, text/xml, */*",
+      },
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json?.data?.publication?.posts?.edges || [];
-  } catch {
+
+    if (!res.ok) throw new Error(`RSS returned ${res.status}`);
+    const xml = await res.text();
+    return parseRSS(xml);
+  } catch (err) {
+    console.error("[blogs] RSS fetch failed:", err.message);
     return [];
   }
 }
 
 export const metadata = {
   title: "Blogs | Zahoor Farooq",
-  description: "Technical articles on DevOps, cloud infrastructure, and full-stack development.",
+  description:
+    "Technical articles on DevOps, cloud infrastructure, and full-stack development.",
 };
 
 export default async function Blogs() {
@@ -61,14 +97,16 @@ export default async function Blogs() {
 
           {blogs.length === 0 ? (
             <div className="w-full text-center py-24 flex flex-col items-center gap-4">
-              <p className="text-xl text-dark/50 dark:text-light/50">No blog posts found.</p>
+              <p className="text-xl text-dark/50 dark:text-light/50">
+                Couldn&apos;t load blogs right now.
+              </p>
               <a
                 href="https://zahoorfarooq.hashnode.dev/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary dark:text-primaryDark underline underline-offset-4 font-medium"
               >
-                Visit Hashnode directly →
+                Read articles on Hashnode →
               </a>
             </div>
           ) : (
@@ -80,14 +118,14 @@ export default async function Blogs() {
                     key={blog.node.id}
                     thumbNailImg={blog.node.coverImage?.url || ""}
                     title={blog.node.title}
-                    time={blog.node.readTimeInMinutes || 5}
-                    summary={blog.node.brief || ""}
-                    link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
+                    time={blog.node.readTimeInMinutes}
+                    summary={blog.node.brief}
+                    link={blog.node.url}
                   />
                 ))}
               </ul>
 
-              {/* Latest articles list */}
+              {/* Remaining posts */}
               {recentBlogs.length > 0 && (
                 <div className="w-full mt-20">
                   <h2 className="text-3xl font-bold mb-6 text-dark dark:text-light">
@@ -100,7 +138,7 @@ export default async function Blogs() {
                         thumbNailImg={blog.node.coverImage?.url || ""}
                         title={blog.node.title}
                         date={blog.node.publishedAt}
-                        link={`https://zahoorfarooq.hashnode.dev/${blog.node.slug}`}
+                        link={blog.node.url}
                       />
                     ))}
                   </ul>
@@ -109,7 +147,6 @@ export default async function Blogs() {
             </>
           )}
 
-          {/* Footer CTA */}
           <div className="mt-24 mb-8 text-center">
             <a
               href="https://zahoorfarooq.hashnode.dev/"
@@ -119,7 +156,13 @@ export default async function Blogs() {
             >
               View all articles on Hashnode
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M3 8H13M13 8L9 4M13 8L9 12"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </a>
           </div>
