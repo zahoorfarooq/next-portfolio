@@ -63,7 +63,7 @@ const Experience = () => {
         <ul className="w-full flex flex-col items-start justify-between ml-4 ">
 
           <Details
-            position="DevOps Engineer 1"
+            position="DevOps Engineer"
             company="BQE SOFTWARE"
             companyLink="https://www.bqe.com/"
             time="Oct 2024 - current"
